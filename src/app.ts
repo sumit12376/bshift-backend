@@ -7,6 +7,7 @@ import { loginUserHandler } from './modules/IAM/controller/auth.controller';
 import { connectDatabase } from './utils/database/sequelize';
 import Employeerouter from './modules/User_employee/routes/Useremployee.route';
 import loginRouter from './modules/IAM/routes/auth.route';
+import sendotp from './modules/IAM/routes/otp.routes';
 const app = express();
 const PORT = 8005
 app.use(helmet());         
@@ -24,6 +25,8 @@ app.get('/dashboard', (req, res) => {
 app.use('/api/restaurants', restaurantRouter);
 app.use('/api/employee',Employeerouter );
 app.use('/api/iam/auth', loginRouter);
+app.use('/api/iam/sendotps', sendotp);
+app.use('/api/iam/verifys', sendotp);
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
   console.error('Unhandled error:', err);
   res.status(500).json({ message: 'Internal Server Error' });

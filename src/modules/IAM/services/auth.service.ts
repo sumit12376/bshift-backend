@@ -46,6 +46,7 @@
 
 
 import bcrypt from 'bcrypt';
+import { getCachedItem, setCachedItem } from "../../../utils/redis/redisHelper";
 import { User } from '../models/user.model';
 import { generateAccessToken } from '../../../utils/security/security';
 import { UserEmployee } from '../../../modules/User_employee/models/userEmployee.model';
@@ -61,12 +62,12 @@ export async function loginUser({ identifier, password }: LoginInput) {
   });
 
   if (!user) {
-    return { status: false, message: 'wrong email' };
+    return { status: false, message: 'Wrong email' };
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    return { status: false, message: 'wrong password' };
+    return { status: false, message: 'Wrong password' };
   }
 
   const tokenData = {
@@ -76,6 +77,18 @@ export async function loginUser({ identifier, password }: LoginInput) {
 
   const userToken = generateAccessToken(tokenData).token;
 
+  const RedisIdentifier = {
+    OTP: 'OTP'
+  };
+
+  await setCachedItem(
+    `${RedisIdentifier.OTP}::${userToken }`, 
+    {
+      id: user.id,
+      email: user.email
+    }
+  );
+
   return {
     status: true,
     message: 'Login successful',
@@ -83,7 +96,7 @@ export async function loginUser({ identifier, password }: LoginInput) {
       token: userToken,
       id: user.id,
       email: user.email,
-     name: user.name
+      name: user.name
     },
   };
 }
