@@ -50,10 +50,26 @@ import { getCachedItem, setCachedItem } from "../../../utils/redis/redisHelper";
 import { User } from '../models/user.model';
 import { generateAccessToken } from '../../../utils/security/security';
 import { UserEmployee } from '../../../modules/User_employee/models/userEmployee.model';
+import { CheckUserInput } from '../schema/auth.schema';
 interface LoginInput {
   identifier: string;
   password: string;
 }
+export async function checkUsers({ identifier }: CheckUserInput) {
+  const user = await UserEmployee.findOne({
+    where: { email: identifier },
+  });
+
+  if (!user) {
+    return { success: false, message: 'User not found' };
+  }
+
+  return {
+    success: true,
+    message: 'User already exists',
+  };
+}
+
 
 export async function loginUser({ identifier, password }: LoginInput) {
   const user = await UserEmployee.findOne({
@@ -93,7 +109,7 @@ export async function loginUser({ identifier, password }: LoginInput) {
     status: true,
     message: 'Login successful',
     user: {
-      token: userToken,
+      token: userToken,//jwt
       id: user.id,
       email: user.email,
       name: user.name

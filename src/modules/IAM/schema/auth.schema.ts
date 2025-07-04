@@ -6,3 +6,9 @@ export const LoginInputSchema = z.object({
 });
 
 export type LoginInput = z.infer<typeof LoginInputSchema>;
+
+export const checkUser = z.object({
+  identifier: z.string(),
+});
+
+export type CheckUserInput = z.infer<typeof checkUser>;
