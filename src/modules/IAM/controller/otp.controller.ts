@@ -25,6 +25,7 @@ export const verify = async (
 ): Promise<void> => {
   try {
     const inputData = VerifyOtpInput.parse(request.body);
+    console.log("input", inputData)
     const result = await verifyOtp(inputData);
 
     response.status(200).json({
@@ -35,7 +36,7 @@ export const verify = async (
     console.error("VERIFY OTP ERROR:", error);
     response.status(400).json({
       success: false,
-      message: error.message || 'Something went wrong',
+      message:'Something went wrong',
     });
   }
 };

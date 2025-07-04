@@ -14,7 +14,7 @@ export const sendMail = async (to: string, subject: string, html: string) => {
 
   try {
     const info = await transporter.sendMail({
-      from: `"Your App" <${process.env.GMAIL_USER}>`,
+      from: `"DeRestaurant - Restaurant Management" <${process.env.GMAIL_USER}>`,
       to,
       subject,
       html,
