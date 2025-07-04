@@ -106,7 +106,7 @@ const htmlContent = `
       order: [[metadata.sortBy, metadata.sortOrder]],
     });
 
-    return {
+    return { 
       success: true,
       data: {
         nodes: Employee.rows,
