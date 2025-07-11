@@ -25,6 +25,7 @@ export const UserEmployeeService = {
       name: input.name,
       email: input.email,
       password: hashedPassword,
+      profile: input.profile,
     });
 const subject = `Welcome to DeRestaurant`;
 
@@ -74,6 +75,7 @@ const htmlContent = `
         id: user.id,
         name: user.name,
         email: user.email,
+          profile: input.profile,
         role: user.role,
       },
     };

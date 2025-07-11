@@ -35,7 +35,8 @@ export async function sendOtpService(input: SendOtpInputType): Promise<{
     }
   }
 
-  const otp = generateOtp();
+const otp = generateOtp().toString(); // ✅ FIX
+
   const newAttemptCount = (cachedData?.attempts || 0) + 1;
 
   // Prepare cache data - don't include user.id for registration
@@ -103,8 +104,10 @@ export async function verifyOtp(
   const { identifier, otp, purpose } = otpInput;
   const userCacheKey = `${RedisIdentifier.OTP}::${identifier}`;
 
-  const cached = await getCachedItem(userCacheKey);
 
+  const cached = await getCachedItem(userCacheKey);
+console.log("Cached OTP:", cached.otp, typeof cached.otp);
+console.log("Input OTP :", otp, typeof otp);
   if (!cached) {
     throw new Error("OTP has expired or is invalid.");
   }

@@ -9,7 +9,11 @@ export const createEmployee = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    const input = createEmployeeSchema.parse(req.body);
+    console.log('Received req.body:', req.body); // 🔍 debug
+console.log('Received req.file:', req.file); // 🔍 debug
+    const profileUrl = req.file?.path
+
+    const input = createEmployeeSchema.parse({...req.body, profile:profileUrl});
     const result = await UserEmployeeService.create(input);
 
     if (!result.success) {
@@ -93,3 +97,15 @@ export const updateEmployee = async(
         next(error);
     }
 };
+
+// export const uploadImage= async(
+//     req:Request,
+//     res:Response,
+//     next:NextFunction
+// ):Promise<void>=>{
+//     try {
+        
+//     } catch (error) {
+        
+//     }
+// }

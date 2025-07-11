@@ -33,7 +33,7 @@ export async function getCachedItem(key: string): Promise<any | null> {
   return value ? JSON.parse(value) : null;
    
 }
-export async function removeCachedItem(key:string): Promise<void>{
+export async function deleteCachedItem(key:string): Promise<void>{
     await connectRedis();
     const result= await client.del(key)
     if(result){

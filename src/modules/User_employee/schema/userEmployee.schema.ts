@@ -2,7 +2,8 @@ import z from 'zod'
 export const createEmployeeSchema=z.object({
 name:z.string(),
 email:z.string(),
-password:z.string()
+password:z.string(),
+ profile: z.string().url().optional(),
 })
 export type CreateInput = z.infer<typeof createEmployeeSchema>;
 

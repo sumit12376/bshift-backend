@@ -1,5 +1,5 @@
-import { Model, DataTypes } from 'sequelize';
-import { sequelize } from '../../../utils/database/sequelize';
+import { Model, DataTypes } from "sequelize";
+import { sequelize } from "../../../utils/database/sequelize";
 
 export class UserEmployee extends Model {
   public id!: number;
@@ -26,6 +26,10 @@ export class UserEmployee extends Model {
           allowNull: false,
           unique: true,
         },
+        profile: {
+          type: DataTypes.STRING,
+          allowNull: true,
+        },
         password: {
           type: DataTypes.STRING,
           allowNull: false,
@@ -33,20 +37,15 @@ export class UserEmployee extends Model {
         role: {
           type: DataTypes.STRING,
           allowNull: false,
-          defaultValue: 'employee',
+          defaultValue: "employee",
         },
       },
       {
-         sequelize,
-    modelName: 'UserEmployee',
-    tableName: 'useremployee',
-    timestamps: true,
+        sequelize,
+        modelName: "UserEmployee",
+        tableName: "useremployee",
+        timestamps: true,
       }
     );
   }
 }
-
-
-
-
-
