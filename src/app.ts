@@ -8,6 +8,7 @@ import { connectDatabase } from './utils/database/sequelize';
 import Employeerouter from './modules/User_employee/routes/Useremployee.route';
 import loginRouter from './modules/IAM/routes/auth.route';
 import sendotp from './modules/IAM/routes/otp.routes';
+import './jobs/dailyEmailJob'; 
 const app = express();
 const PORT = 8005
 app.use(helmet());         
