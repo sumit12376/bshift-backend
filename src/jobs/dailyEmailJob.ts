@@ -1,7 +1,7 @@
 import cron from 'node-cron';
 import { UserEmployee } from '../modules/User_employee/models/userEmployee.model';
 
-import { sendMail } from '../utils/email'; // your existing utility
+import { sendMail } from '../utils/email';
 
 //10 PM daily
 cron.schedule('* 22 * * *', async () => {
@@ -15,7 +15,7 @@ cron.schedule('* 22 * * *', async () => {
       const htmlContent = `
         <p>Hello ${user.name},</p>
         <p>This is your daily update/reminder from DeRestaurant.</p>
-        <p>Stay awesome! 🚀</p>
+        <p>Stay awesome!</p>
       `;
 
       await sendMail(user.email, subject, htmlContent);
