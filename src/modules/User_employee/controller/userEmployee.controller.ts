@@ -9,8 +9,8 @@ export const createEmployee = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-    console.log('Received req.body:', req.body); // 🔍 debug
-console.log('Received req.file:', req.file); // 🔍 debug
+    console.log('Received req.body:', req.body);
+console.log('Received req.file:', req.file);
     const profileUrl = req.file?.path
 
     const input = createEmployeeSchema.parse({...req.body, profile:profileUrl});

@@ -1,6 +1,7 @@
 import { genearteRandomPassword } from '../../../utils/general/passwordGenrator';
 import bcrypt from 'bcrypt';
 import { Restaurant } from '../model/restaurant.model';
+import { Menu } from '@/modules/menu/model';
 import type { CreateRestaurantInputType, GetRestaurantListInputType } from '../schema/restaurant.schema';
 import { Op } from 'sequelize';
 
@@ -97,16 +98,23 @@ export const restaurantService = {
       const limit = metadata.size === -1 ? 9999 : metadata.size;
       const offset = (metadata.page - 1) * limit;
 
-      const restaurant = await Restaurant.findAndCountAll({
-        distinct: true,
-        attributes: { exclude: ['deletedAt', 'password'] },
-        where: {
-          ...searchFilter,
-        },
-        limit,
-        offset,
-        order: [[metadata.sortBy, metadata.sortOrder]],
-      });
+const restaurant = await Restaurant.findAndCountAll({
+  distinct: true,
+  attributes: { exclude: ['deletedAt', 'password'] },
+  where: {
+    ...searchFilter,
+  },
+  include: [
+    {
+      model: Menu,
+      as: "menus",
+      attributes: { exclude: ["createdAt", "updatedAt"] }
+    }
+  ],
+  limit,
+  offset,
+  order: [[metadata.sortBy, metadata.sortOrder]],
+});
 
       return {
         success: true,

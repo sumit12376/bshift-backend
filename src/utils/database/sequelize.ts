@@ -43,7 +43,7 @@ const syncModels = async (): Promise<void> => {
 export const connectDatabase = async (): Promise<void> => {
   try {
     await syncModels();
-    Restaurant.initialize(); 
+    // Restaurant.initialize(); 
 
     await sequelize.authenticate();
     console.log('Database connected successfully.');
