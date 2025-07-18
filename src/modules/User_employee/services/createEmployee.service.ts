@@ -6,6 +6,9 @@ import { Op } from "sequelize";
 import { deleteInput } from "../schema/userEmployee.schema";
 import { updateInputType } from "../schema/userEmployee.schema";
 import { sendMail } from "../../../utils/email";
+import { Cart } from "@/modules/cart/model/model";
+// import { Cart } from "@/modules/cart/model/model";
+// import { cartListInputType } from "../schema/userEmployee.schema";
 export const UserEmployeeService = {
   async create(input: CreateInput) {
     const existingUser = await UserEmployee.findOne({
@@ -100,13 +103,21 @@ const htmlContent = `
     const offset = (metadata.page - 1) * limit;
 
     const Employee = await UserEmployee.findAndCountAll({
-      distinct: true,
-      attributes: { exclude: ["password"] },
-      where: { ...searchFilter },
-      limit,
-      offset,
-      order: [[metadata.sortBy, metadata.sortOrder]],
-    });
+  distinct: true,
+  attributes: { exclude: ["password"] },
+  where: { ...searchFilter },
+  include: [
+    {
+      model: Cart,
+      as: "carts", 
+      attributes: { exclude: ["createdAt", "updatedAt"] }
+    }
+  ],
+  limit,
+  offset,
+  order: [[metadata.sortBy, metadata.sortOrder]],
+});
+
 
     return { 
       success: true,
@@ -121,7 +132,9 @@ const htmlContent = `
       message: "done",
     };
   },
+// async getEmployee(){
 
+// },
   async deleteemployee(id: deleteInput) {
     const employee = await UserEmployee.findByPk(id.id);
     if (!employee) {
@@ -153,4 +166,5 @@ const htmlContent = `
       message: "Employee updated successfully",
     };
   },
-};
+
+}

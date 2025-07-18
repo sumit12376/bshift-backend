@@ -35,3 +35,4 @@ id: z.number()
 export type updateInputType =z.infer<typeof updateInput>
 
 export type GetEmployeeListInputType = z.infer<typeof getEmployeeListInput>;
+
