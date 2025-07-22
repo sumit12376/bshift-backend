@@ -23,7 +23,7 @@ async createCart(data: CreateCartInput) {
   }
 
   let cart = await Cart.findOne({ where: { userId: data.userId } });
-
+  
   if (!cart) {
     cart = await Cart.create({
       userId: data.userId,
@@ -36,7 +36,7 @@ async createCart(data: CreateCartInput) {
   for (const item of cart.items) {
     existingItemsMap.set(item.menuItemId, { ...item });
   }
-
+  
   for (const incomingItem of data.items) {
     if (existingItemsMap.has(incomingItem.menuItemId)) {
       const existing = existingItemsMap.get(incomingItem.menuItemId)!;
@@ -55,17 +55,27 @@ async createCart(data: CreateCartInput) {
 
 
 async Getcartservice(input: cartListInputType) {
-const { id } = input;
-const userWithCarts = await UserEmployee.findByPk(id, {
-  include: [
-    {
-      model: Cart,
-      as: "carts", 
-    },
-  ],
-});
-return userWithCarts
+  const { id } = input;
+
+  const user = await UserEmployee.findByPk(id, {
+    include: [{ model: Cart, as: "carts" }],
+  });
+console.log("user",user)
+  if (!user) {
+    throw new Error("User not found");
   }
 
+  for (let i = 0; i < user.carts.length; i++) {
+    const cart = user.carts[i];
 
-};
+    for (let j = 0; j < cart.items.length; j++) {
+      const item = cart.items[j];
+
+      const menu = await Menu.findByPk(item.menuItemId);
+      item.menuName = menu ? menu.name : "Unknown";
+    }
+  }
+
+  return user;
+}
+}

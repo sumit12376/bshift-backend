@@ -3,6 +3,7 @@ import { Menu } from "@/modules/menu/model";
 // import { User } from "@/modules/IAM/models/user.model";
 import { UserEmployee } from "@/modules/User_employee/models/userEmployee.model";
 import { Cart } from "@/modules/cart/model/model";
+import { Order } from "@/modules/order/model/model";
 
 export const setupAssociations = () => {
   // Restaurant ->    Menu
@@ -26,4 +27,8 @@ export const setupAssociations = () => {
     foreignKey: "userId",
     as: "user",
   });
+Order.belongsTo(UserEmployee, { foreignKey: 'userId' });
+Order.belongsTo(Menu, { foreignKey: 'menuId' });
+UserEmployee.hasMany(Order, { foreignKey: 'userId' });
+Menu.hasMany(Order, { foreignKey: 'menuId' });
 };

@@ -16,6 +16,7 @@ import { UserEmployee } from './modules/User_employee/models/userEmployee.model'
 import { setupAssociations } from './utils/database/setupAssociations';
 import cartRouter from './modules/cart/routes/routes';
 import { initModels } from './utils/database/modelLoader';
+import orderRouter from './modules/order/routes/routes';
 const app = express();
 const PORT = 8005;
 
@@ -23,7 +24,6 @@ app.use(helmet());
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
-
 app.get('/', (req, res) => {
   res.send('Server is running');
 });
@@ -38,6 +38,7 @@ app.use('/api/iam/sendotps', sendotp);
 app.use('/api/iam/verifys', sendotp);
 app.use('/api/Menu', Menurouter);
 app.use('/api/cart', cartRouter);
+app.use('/api/order', orderRouter);
 
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
   console.error('Unhandled error:', err);
