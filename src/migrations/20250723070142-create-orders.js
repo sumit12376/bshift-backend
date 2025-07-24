@@ -18,29 +18,7 @@ module.exports = {
         },
         onDelete: "CASCADE",
       },
-      // restaurantId: {
-      //   type: Sequelize.INTEGER,
-      //   allowNull: false,
-      //   references: {
-      //     model: "restaurants",
-      //     key: "id",
-      //   },
-      //   onDelete: "CASCADE",
-      // },
 
-      menuId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: "menu",
-          key: "id",
-        },
-        onDelete: "CASCADE",
-      },
-      totalAmount: {
-        type: Sequelize.FLOAT,
-        allowNull: false,
-      },
       status: {
         type: Sequelize.ENUM(
           "pending",
@@ -61,6 +39,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+
+      items: {
+        type: Sequelize.JSON,
+        allowNull: false,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -74,6 +57,7 @@ module.exports = {
     });
   },
 
+  
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable("orders");
   },

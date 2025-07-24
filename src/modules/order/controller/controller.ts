@@ -11,7 +11,7 @@ export const PlaceOrder = async (
     const result = await placeorderService(parsed);
     response.status(201).json(result);
   } catch (error: any) {
-    console.log("hiiii"  ,error)
+    // console.log("hiiii"  ,error)
     if (error.message.includes('foreign key constraint')) {
       response.status(400).json({ 
         success: false, 
@@ -32,8 +32,18 @@ export const GetOrder = async (
   next: NextFunction
 ): Promise<void> => {
   try {
-  const id = Number(request.params.id);
+const id = Number(request.params.id);
+console.log(id)
+if (isNaN(id)) {
+  return response.status(400).json({
+    id: id,
+    success: false,
+    message: "Invalid ID. It must be a number."
+  });
+}
+
 const parsed = getOrderSchema.parse({ id });
+
 
     // const parsed = getOrderSchema.parse({ id });
 

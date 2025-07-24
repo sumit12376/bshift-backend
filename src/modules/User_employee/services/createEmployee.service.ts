@@ -7,6 +7,7 @@ import { deleteInput } from "../schema/userEmployee.schema";
 import { updateInputType } from "../schema/userEmployee.schema";
 import { sendMail } from "../../../utils/email";
 import { Cart } from "@/modules/cart/model/model";
+import { Order } from "@/modules/order/model/model";
 // import { Cart } from "@/modules/cart/model/model";
 // import { cartListInputType } from "../schema/userEmployee.schema";
 export const UserEmployeeService = {
@@ -111,6 +112,10 @@ const htmlContent = `
       model: Cart,
       as: "carts", 
       attributes: { exclude: ["createdAt", "updatedAt"] }
+    },
+    {
+      model: Order,
+       attributes: { exclude: ["createdAt", "updatedAt"] }
     }
   ],
   limit,

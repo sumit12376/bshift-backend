@@ -33,6 +33,10 @@ export const CartController = {
         data: result,
       });
     } catch (error) {
+        res.status(200).json({
+        success: false,
+        
+      });
       next(error); // Pass to global error handler
     }
   }

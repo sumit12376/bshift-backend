@@ -28,7 +28,7 @@ export const setupAssociations = () => {
     as: "user",
   });
 Order.belongsTo(UserEmployee, { foreignKey: 'userId' });
-Order.belongsTo(Menu, { foreignKey: 'menuId' });
+// Order.belongsTo(Menu, { foreignKey: 'menuId' });
 UserEmployee.hasMany(Order, { foreignKey: 'userId' });
-Menu.hasMany(Order, { foreignKey: 'menuId' });
+// Menu.hasMany(Order, { foreignKey: 'menuId' });
 };

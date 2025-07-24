@@ -1,15 +1,18 @@
 import { Model, DataTypes } from "sequelize";
 import { sequelize } from "../../../utils/database/sequelize";
 
-// Change from class declaration to interface-style with declare
 export class Order extends Model {
   declare id: number;
   declare userId: number;
-  declare menuId: number;
-  declare totalAmount: number;
-  declare status: "pending" | "confirmed" | "preparing" | "delivered" | "cancelled";
-  declare paymentMethod: string;
+  declare status:
+    | "pending"
+    | "confirmed"
+    | "preparing"
+    | "delivered"
+    | "cancelled";
+  declare paymentMethod: "cod" | "upi" | "card" | "online";
   declare address: string;
+  declare items: any[];
   declare createdAt: Date;
   declare updatedAt: Date;
 
@@ -25,24 +28,10 @@ export class Order extends Model {
           type: DataTypes.INTEGER,
           allowNull: false,
           references: {
-            model: 'useremployee',
-            key: 'id'
-          }
-        },
-        menuId: {
-          type: DataTypes.INTEGER,
-          allowNull: false,
-          references: { 
-            model: 'menu',
-            key: 'id'
-          }
-        },
-        totalAmount: {
-          type: DataTypes.FLOAT,
-          allowNull: false,
-          validate: {
-            min: 0
-          }
+            model: "useremployee",
+            key: "id",
+          },
+          onDelete: "CASCADE",
         },
         status: {
           type: DataTypes.ENUM(
@@ -63,21 +52,23 @@ export class Order extends Model {
         address: {
           type: DataTypes.STRING,
           allowNull: false,
-          validate: {  // Add validation
-            notEmpty: true
-          }
+          validate: {
+            notEmpty: true,
+          },
+        },
+        items: {
+          type: DataTypes.JSON,
+          allowNull: false,
+          defaultValue: [],
         },
       },
       {
         sequelize,
-        tableName: "orders", 
+        tableName: "orders",
         modelName: "Order",
         timestamps: true,
-
-        paranoid: false    
+        paranoid: false,
       }
     );
   }
 }
-
-// Add this if you're not already calling it during
